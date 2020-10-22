@@ -19,28 +19,28 @@ namespace WebAPI.Models
 
         internal List<Usuario> retrieve()
         {
-            MySqlConnection connection = conexion();
-            MySqlCommand command = connection.CreateCommand();
+            MySqlConnection conectar = conexion();
+            MySqlCommand command = conectar.CreateCommand();
             command.CommandText = "SELECT * FROM usuario";
 
             try
             {
-                connection.Open();
+                conectar.Open();
                 MySqlDataReader reader = command.ExecuteReader();
                 List<Usuario> usuario = new List<Usuario>();
 
                 while (reader.Read())
                 {
-                    Usuario e = new Usuario(reader.GetString(0), reader.GetString(1), reader.GetInt32(2), reader.GetString(3));
+                    Usuario e = new Usuario(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetInt32(3));
                     usuario.Add(e);
 
                 }
-                connection.Close();
+                conectar.Close();
                 return usuario;
             }
             catch (MySqlException e)
             {
-                Debug.WriteLine("Error al conectarse con la base de datos ");
+                Debug.WriteLine("Error al conectar a la base de datos. ");
                 return null;
             }
         }

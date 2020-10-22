@@ -1,9 +1,9 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
-using MySql.Data.MySqlClient;
 
 namespace WebAPI.Models
 {
@@ -19,40 +19,41 @@ namespace WebAPI.Models
 
         internal List<Evento> retrieve()
         {
-            MySqlConnection connection = conexion();
-            MySqlCommand command = connection.CreateCommand();
+            MySqlConnection conectar = conexion();
+            MySqlCommand command = conectar.CreateCommand();
             command.CommandText = "SELECT * FROM evento";
 
             try
             {
-                connection.Open();
+                conectar.Open();
                 MySqlDataReader reader = command.ExecuteReader();
                 List<Evento> evento = new List<Evento>();
 
                 while (reader.Read())
                 {
-                    Evento e = new Evento(reader.GetString(0), reader.GetString(1), reader.GetMySqlDateTime(2).ToString(), reader.GetInt32(3));
+                    Evento e = new Evento(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetMySqlDateTime(3).ToString());
                     evento.Add(e);
 
                 }
-                connection.Close();
+                conectar.Close();
                 return evento;
             }
             catch (MySqlException e)
             {
-                Debug.WriteLine("Error al conectarse con la base de datos ");
+                Debug.WriteLine("Error al conectar a la base de datos. ");
                 return null;
             }
         }
+
         internal List<EventoDTO> retrieveDTO()
         {
-            MySqlConnection connection = conexion();
-            MySqlCommand command = connection.CreateCommand();
+            MySqlConnection conectar = conexion();
+            MySqlCommand command = conectar.CreateCommand();
             command.CommandText = "SELECT local,visitante,fecha FROM evento";
 
             try
             {
-                connection.Open();
+                conectar.Open();
                 MySqlDataReader reader = command.ExecuteReader();
                 List<EventoDTO> evento = new List<EventoDTO>();
 
@@ -62,14 +63,15 @@ namespace WebAPI.Models
                     evento.Add(e);
 
                 }
-                connection.Close();
+                conectar.Close();
                 return evento;
             }
             catch (MySqlException e)
             {
-                Debug.WriteLine("Error al conectarse con la base de datos ");
+                Debug.WriteLine("Error al conectar a la base de datos. ");
                 return null;
             }
         }
+
     }
 }

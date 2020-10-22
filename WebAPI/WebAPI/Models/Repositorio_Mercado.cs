@@ -19,40 +19,41 @@ namespace WebAPI.Models
 
         internal List<Mercado> retrieve()
         {
-            MySqlConnection connection = conexion();
-            MySqlCommand command = connection.CreateCommand();
+            MySqlConnection conectar = conexion();
+            MySqlCommand command = conectar.CreateCommand();
             command.CommandText = "SELECT * FROM mercado";
 
             try
             {
-                connection.Open();
+                conectar.Open();
                 MySqlDataReader reader = command.ExecuteReader();
                 List<Mercado> mercado = new List<Mercado>();
 
                 while (reader.Read())
                 {
-                    Mercado e = new Mercado(reader.GetDouble(0), reader.GetDouble(1), reader.GetDouble(2), reader.GetDouble(3), reader.GetDouble(4), reader.GetInt32(5));
+                    Mercado e = new Mercado(reader.GetInt32(0), reader.GetDouble(1), reader.GetDouble(2), reader.GetDouble(3), reader.GetDouble(4), reader.GetDouble(5), reader.GetInt32(6));
                     mercado.Add(e);
 
                 }
-                connection.Close();
+                conectar.Close();
                 return mercado;
             }
             catch (MySqlException e)
             {
-                Debug.WriteLine("Error al conectarse con la base de datos ");
+                Debug.WriteLine("Error al conectar a la base de datos. ");
                 return null;
             }
         }
+
         internal List<MercadoDTO> retrieveDTO()
         {
-            MySqlConnection connection = conexion();
-            MySqlCommand command = connection.CreateCommand();
-            command.CommandText = "SELECT `over/under`,`cuota over`,`cuota under` FROM mercado";
+            MySqlConnection conectar = conexion();
+            MySqlCommand command = conectar.CreateCommand();
+            command.CommandText = "SELECT tipo_Mercado,cuota_Over,cuota_Under FROM mercado";
 
             try
             {
-                connection.Open();
+                conectar.Open();
                 MySqlDataReader reader = command.ExecuteReader();
                 List<MercadoDTO> mercado = new List<MercadoDTO>();
 
@@ -62,12 +63,12 @@ namespace WebAPI.Models
                     mercado.Add(e);
 
                 }
-                connection.Close();
+                conectar.Close();
                 return mercado;
             }
             catch (MySqlException e)
             {
-                Debug.WriteLine("Error al conectarse con la base de datos ");
+                Debug.WriteLine("Error al conectar a la base de datos. ");
                 return null;
             }
         }

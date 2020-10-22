@@ -8,43 +8,45 @@ using System.Web.Http;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/Mercados/{action}")]
-    public class MercadosController : ApiController
+    [Route("api/Mercado/{action}")]
+    public class MercadoController : ApiController
     {
+        // GET: api/Mercado
         [HttpGet]
         [ActionName("Get")]
         public IEnumerable<Mercado> Get()
         {
-            Repositorio_Mercado rep = new Repositorio_Mercado();
-            List<Mercado> lista = rep.retrieve();
-            return lista;
+            Repositorio_Mercado repository = new Repositorio_Mercado();
+            List<Mercado> mercados = repository.retrieve();
+            return mercados;
         }
+
         [HttpGet]
         [ActionName("GetDTO")]
         public IEnumerable<MercadoDTO> GetDTO()
         {
-            Repositorio_Mercado rep = new Repositorio_Mercado();
-            List<MercadoDTO> lista = rep.retrieveDTO();
-            return lista;
+            var repository = new Repositorio_Mercado();
+            List<MercadoDTO> mercados = repository.retrieveDTO();
+            return mercados;
         }
 
-
+        // GET: api/Mercado/5
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST: api/Mercados
+        // POST: api/Mercado
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT: api/Mercados/5
+        // PUT: api/Mercado/5
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE: api/Mercados/5
+        // DELETE: api/Mercado/5
         public void Delete(int id)
         {
         }

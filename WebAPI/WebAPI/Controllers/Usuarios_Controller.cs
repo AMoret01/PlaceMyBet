@@ -13,8 +13,8 @@ namespace WebAPI.Controllers
         // GET: api/Usuario_
         public IEnumerable<Usuario> Get()
         {
-            var repositorio = new Repositorio_Usuario();
-            List<Usuario> usuarios= repositorio.retrieve();
+            var repository = new Repositorio_Usuario();
+            List<Usuario> usuarios= repository.retrieve();
             return usuarios;
         }
 

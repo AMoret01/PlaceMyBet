@@ -18,110 +18,110 @@ namespace WebAPI.Models
 
         }
 
-        internal List<Apuestas> retrieve()
+        internal List<Apuesta> retrieve()
         {
-            MySqlConnection connection = conexion();
-            MySqlCommand command = connection.CreateCommand();
-            command.CommandText = "SELECT * FROM apuestas";
+            MySqlConnection conectar = conexion();
+            MySqlCommand command = conectar.CreateCommand();
+            command.CommandText = "SELECT * FROM apuesta";
 
             try
             {
-                connection.Open();
+                conectar.Open();
                 MySqlDataReader reader = command.ExecuteReader();
-                List<Apuestas> apuestas = new List<Apuestas>();
+                List<Apuesta> apuesta = new List<Apuesta>();
 
                 while (reader.Read())
                 {
-                    Apuestas e = new Apuestas(reader.GetInt32(0), reader.GetString(1), reader.GetDouble(2), reader.GetString(3), reader.GetInt32(4));
-                    apuestas.Add(e);
+                    Apuesta e = new Apuesta(reader.GetInt32(0), reader.GetDouble(1), reader.GetDouble(2), reader.GetDouble(3), reader.GetString(4), reader.GetInt32(5), reader.GetString(6), reader.GetString(7));
+                    apuesta.Add(e);
 
                 }
-                connection.Close();
-                return apuestas;
+                conectar.Close();
+                return apuesta;
             }
             catch (MySqlException e)
             {
-                Debug.WriteLine("Error al conectarse con la base de datos ");
+                Debug.WriteLine("Error al conectar a la base de datos. ");
                 return null;
             }
         }
-        internal List<ApuestasDTO> retrieveDTO()
+
+        internal List<ApuestaDTO> retrieveDTO()
         {
-            MySqlConnection connection = conexion();
-            MySqlCommand command = connection.CreateCommand();
-            command.CommandText = "SELECT apuestas.`email`,apuestas.`over/under`,apuestas.`Dinero`,apuestas.`Tipo`,mercado.`cuota over`,mercado.`cuota under`,evento.`Fecha` FROM apuestas INNER JOIN mercado ON apuestas.`over/under` = mercado.`over/under` INNER JOIN evento ON mercado.`Id evento` = evento.`Id evento`;";
+            MySqlConnection conectar = conexion();
+            MySqlCommand command = conectar.CreateCommand();
+            command.CommandText = "SELECT email,tipo_Mercado,cuota,tipo_Cuota,dinero,fecha FROM apuesta;";
 
             try
             {
-                connection.Open();
+                conectar.Open();
                 MySqlDataReader reader = command.ExecuteReader();
-                List<ApuestasDTO> apuestas = new List<ApuestasDTO>();
+                List<ApuestaDTO> apuesta = new List<ApuestaDTO>();
 
                 while (reader.Read())
                 {
-                    ApuestasDTO e = new ApuestasDTO(reader.GetString(0), reader.GetDouble(1), reader.GetString(2), reader.GetString(3), reader.GetDouble(4), reader.GetDouble(5), reader.GetString(6));
-                    apuestas.Add(e);
+                    ApuestaDTO e = new ApuestaDTO(reader.GetString(0), reader.GetDouble(1), reader.GetDouble(2), reader.GetString(3), reader.GetDouble(4), reader.GetString(5));
+                    apuesta.Add(e);
 
                 }
-                connection.Close();
-                return apuestas;
+                conectar.Close();
+                return apuesta;
             }
             catch (MySqlException e)
             {
-                Debug.WriteLine("Error al conectarse con la base de datos ");
+                Debug.WriteLine("Error al conectar a la base de datos. ");
                 return null;
             }
         }
-        internal void Save(Apuestas a)
+
+        internal void Save(Apuesta ap)
         {
-            MySqlConnection con = conexion();
-            MySqlCommand command = con.CreateCommand();
+            MySqlConnection conectar = conexion();
+            MySqlCommand command = conectar.CreateCommand();
             CultureInfo culInfo = new System.Globalization.CultureInfo("es-ES");
+
             culInfo.NumberFormat.NumberDecimalSeparator = ".";
 
             culInfo.NumberFormat.CurrencyDecimalSeparator = ".";
             culInfo.NumberFormat.PercentDecimalSeparator = ".";
             culInfo.NumberFormat.CurrencyDecimalSeparator = ".";
             System.Threading.Thread.CurrentThread.CurrentCulture = culInfo;
-            command.CommandText = "select * from mercado where `Id evento`=" + a.Id + ";";
-            
+
+            command.CommandText = "select * from mercado where id_Mercado=" + ap.Id_Mercado + ";";
             try
             {
-                con.Open();
-                MySqlDataReader res = command.ExecuteReader();
-                res.Read();
-                Debug.WriteLine("Recuperado: " + res.GetInt32(0) + " " + res.GetString(1) + " " + res.GetDouble(2) + " " + res.GetString(3) + " " + res.GetDouble(4));
-                Mercado m = new Mercado(res.GetDouble(0), res.GetDouble(1), res.GetDouble(2), res.GetDouble(3), res.GetDouble(4), res.GetInt32(5));
-
-
+                conectar.Open();
+                MySqlDataReader reader = command.ExecuteReader();
+                reader.Read();
+                Mercado mer = new Mercado(reader.GetInt32(0), reader.GetDouble(1), reader.GetDouble(2), reader.GetDouble(3), reader.GetDouble(4), reader.GetDouble(5), reader.GetInt32(6));
 
                 double dineroOver = 0;
                 double dineroUnder = 0;
-                if (a.Tipo == "over")
+                if (ap.Tipo_Cuota == "over")
                 {
-                    dineroOver = a.Dinero + m.Dinero_over;
-                    dineroUnder = m.Dinero_under;
+                    dineroOver = ap.Dinero + mer.Dinero_Over;
+                    dineroUnder = mer.Dinero_Under;
                 }
                 else
                 {
-                    dineroOver = m.Dinero_over;
-                    dineroUnder = a.Dinero + m.Dinero_under;
+                    dineroOver = mer.Dinero_Over;
+                    dineroUnder = ap.Dinero + mer.Dinero_Under;
                 }
 
                 double cuotaOver = dineroOver / (dineroOver + dineroUnder);
                 cuotaOver = (1 / cuotaOver) * 0.95;
                 double cuotaUnder = dineroUnder / (dineroUnder + dineroOver);
                 cuotaUnder = (1 / cuotaUnder) * 0.95;
-                res.Close();
-                con.Close();
-                command.CommandText = "update mercado set `cuota over`=" + Math.Round(cuotaOver, 2) + ", `cuota under`=" + Math.Round(cuotaUnder, 2) + ", `dinero over`=" + dineroOver + ", `dinero under`=" + dineroUnder + " where `id evento`=" + a.Id + ";";
+                reader.Close();
+                conectar.Close();
+                command.CommandText = "update mercado set cuota_Over=" + Math.Round(cuotaOver, 2) + ", cuota_Under=" + Math.Round(cuotaUnder, 2) + ", dinero_Over=" + dineroOver + ", dinero_Under=" + dineroUnder + " where id_Mercado=" + ap.Id_Mercado + ";";
                 try
                 {
-                    con.Open();
+                    conectar.Open();
                     command.ExecuteNonQuery();
-                    con.Close();
+                    conectar.Close();
                     double cuotaApuesta = 0;
-                    if (a.Tipo == "under")
+                    if (ap.Tipo_Cuota == "under")
                     {
                         cuotaApuesta = cuotaUnder;
                     }
@@ -129,12 +129,12 @@ namespace WebAPI.Models
                     {
                         cuotaApuesta = cuotaOver;
                     }
-                    command.CommandText = "insert into apuestas (tipoMercado, cuota, dinero, fecha, idMercado, gmail, tipoCuota) values (" + a.Tipo + ", " + Math.Round(cuotaApuesta, 2) + ", " + a.Dinero + ", '" + DateTime.Now.ToString("yyyy-MM-dd") + "', " + a.Id + ", '" + a.Email + "', '" + a.Tipo + "');";
+                    command.CommandText = "insert into apuesta(tipo_Mercado, cuota, dinero, fecha, id_Mercado, email, tipo_Cuota) values (" + ap.Tipo_Mercado + ", " + Math.Round(cuotaApuesta, 2) + ", " + ap.Dinero + ", '" + DateTime.Now.ToString("yyyy-MM-dd") + "', " + ap.Id_Mercado + ", '" + ap.Email + "', '" + ap.Tipo_Cuota + "');";
                     try
                     {
-                        con.Open();
+                        conectar.Open();
                         command.ExecuteNonQuery();
-                        con.Close();
+                        conectar.Close();
                     }
                     catch (MySqlException e)
                     {

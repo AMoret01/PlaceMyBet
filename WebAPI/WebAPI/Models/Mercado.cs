@@ -7,38 +7,37 @@ namespace WebAPI.Models
 {
     public class Mercado
     {
-        public Mercado(double over_under, double cuota_over, double cuota_under, double dinero_over, double dinero_under, int id_evento)
+        public Mercado(int id_Mercado, double cuota_Over, double cuota_Under, double dinero_Over, double dinero_Under, double tipo_Mercado, int id_Evento)
         {
-            Over_under = over_under;
-            Cuota_over = cuota_over;
-            Cuota_under = cuota_under;
-            Dinero_over = dinero_over;
-            Dinero_under = dinero_under;
-            Id_evento = id_evento;
+            Id_Mercado = id_Mercado;
+            Cuota_Over = cuota_Over;
+            Cuota_Under = cuota_Under;
+            Dinero_Over = dinero_Over;
+            Dinero_Under = dinero_Under;
+            Tipo_Mercado = tipo_Mercado;
+            Id_Evento = id_Evento;
         }
 
-        public double Over_under { get; set; }
-        public double Cuota_over { get; set; }
-        public double Cuota_under { get; set; }
-        public double Dinero_over { get; set; }
-        public double Dinero_under { get; set; }
-        public int Id_evento { get; set; }
-
+        public int Id_Mercado { get; set; }
+        public double Cuota_Over { get; set; }
+        public double Cuota_Under { get; set; }
+        public double Dinero_Over { get; set; }
+        public double Dinero_Under { get; set; }
+        public double Tipo_Mercado { get; set; }
+        public int Id_Evento { get; set; }
     }
+
     public class MercadoDTO
     {
-        public MercadoDTO(double over_under, double cuota_over, double cuota_under)
+        public MercadoDTO(double tipo_Mercado, double cuota_over, double cuota_under)
         {
-            Over_under = over_under;
+            Tipo_Mercado = tipo_Mercado;
             Cuota_over = cuota_over;
             Cuota_under = cuota_under;
-            
         }
 
-        public double Over_under { get; set; }
+        public double Tipo_Mercado { get; set; }
         public double Cuota_over { get; set; }
         public double Cuota_under { get; set; }
-        
-
     }
 }

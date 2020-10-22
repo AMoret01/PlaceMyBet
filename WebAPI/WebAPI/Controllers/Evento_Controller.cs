@@ -8,47 +8,44 @@ using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/Eventos_/{action}")]
-    public class EventosController : ApiController
+    [Route("api/Evento/{action}")]
+    public class EventoController : ApiController
     {
-
+        // GET: api/Evento
         [HttpGet]
         [ActionName("Get")]
         public IEnumerable<Evento> Get()
         {
-            Repositorio_Evento rep = new Repositorio_Evento();
-            List<Evento> lista = rep.retrieve();
-            return lista;
+            Repositorio_Evento repository = new Repositorio_Evento();
+            List<Evento> eventos = repository.retrieve();
+            return eventos;
         }
-
         [HttpGet]
         [ActionName("GetDTO")]
         public IEnumerable<EventoDTO> GetDTO()
         {
-            Repositorio_Evento rep = new Repositorio_Evento();
-            List<EventoDTO> lista = rep.retrieveDTO();
-            return lista;
+            var repository = new Repositorio_Evento();
+            List<EventoDTO> eventos = repository.retrieveDTO();
+            return eventos;
         }
 
-
-
-        // GET: api/Eventos/5
+        // GET: api/Evento/5
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST: api/Eventos
+        // POST: api/Evento
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT: api/Eventos/5
+        // PUT: api/Evento/5
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE: api/Eventos/5
+        // DELETE: api/Evento/5
         public void Delete(int id)
         {
         }

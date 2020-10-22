@@ -9,45 +9,46 @@ using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/Apuestas/{action}")]
-    public class Apuestas_Controller : ApiController
+    [Route("api/Apuesta/{action}")]
+    public class ApuestaController : ApiController
     {
-        // GET: api/Usuarios_
+        // GET: api/Apuesta
         [HttpGet]
         [ActionName("Get")]
-        public IEnumerable<Apuestas> Get()
+        public IEnumerable<Apuesta> Get()
         {
             Repositorio_Apuestas rep = new Repositorio_Apuestas();
-            List<Apuestas> lista = rep.retrieve();
+            List<Apuesta> lista = rep.retrieve();
             return lista;
         }
         [HttpGet]
         [ActionName("GetDTO")]
-        public IEnumerable<ApuestasDTO> GetDTO()
+        public IEnumerable<ApuestaDTO> GetDTO()
         {
-            Repositorio_Apuestas rep = new Repositorio_Apuestas();
-            List<ApuestasDTO> lista = rep.retrieveDTO();
-            return lista;
+            var repository = new Repositorio_Apuestas();
+            List<ApuestaDTO> apuestas = repository.retrieveDTO();
+            return apuestas;
         }
 
-        // GET: api/Apuestas/5
+        // GET: api/Apuesta/5
         public string Get(int id)
         {
             return "value";
         }
 
-        public void Post([FromBody] Apuestas a)
+        // POST: api/Apuesta
+        public void Post([FromBody] Apuesta apuesta)
         {
             var repo = new Repositorio_Apuestas();
-            repo.Save(a);
+            repo.Save(apuesta);
         }
 
-        // PUT: api/Apuestas/5
+        // PUT: api/Apuesta/5
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE: api/Apuestas/5
+        // DELETE: api/Apuesta/5
         public void Delete(int id)
         {
         }
