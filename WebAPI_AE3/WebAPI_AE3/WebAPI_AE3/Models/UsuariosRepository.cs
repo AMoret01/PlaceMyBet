@@ -8,7 +8,7 @@ using System.Web;
 
 namespace WebAPI_AE3.Models
 {
-    public class Repositorio_Usuario
+    public class UsuariosRepository
     {
         private MySqlConnection conexion()
         {

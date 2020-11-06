@@ -9,23 +9,21 @@ using WebAPI_AE3.Models;
 
 namespace WebAPI_AE3.Controllers
 {
-    [Route("api/Apuesta/{action}")]
+    
     public class ApuestaController : ApiController
     {
         // GET: api/Apuesta
-        [HttpGet]
-        [ActionName("Get")]
+        
         public IEnumerable<Apuesta> Get()
         {
-            Repositorio_Apuestas rep = new Repositorio_Apuestas();
+            ApuestasRepository rep = new ApuestasRepository();
             List<Apuesta> lista = rep.retrieve();
             return lista;
         }
-        [HttpGet]
-        [ActionName("GetDTO")]
+        
         public IEnumerable<ApuestaDTO> GetDTO()
         {
-            var repository = new Repositorio_Apuestas();
+            var repository = new ApuestasRepository();
             List<ApuestaDTO> apuestas = repository.retrieveDTO();
             return apuestas;
         }
@@ -39,7 +37,7 @@ namespace WebAPI_AE3.Controllers
         // POST: api/Apuesta
         public void Post([FromBody] Apuesta apuesta)
         {
-            var repo = new Repositorio_Apuestas();
+            var repo = new ApuestasRepository();
             repo.Save(apuesta);
         }
 

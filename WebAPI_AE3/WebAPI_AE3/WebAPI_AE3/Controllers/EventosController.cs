@@ -17,7 +17,7 @@ namespace WebAPI_AE3.Controllers
         [ActionName("Get")]
         public IEnumerable<Evento> Get()
         {
-            Repositorio_Evento repository = new Repositorio_Evento();
+            EventosRepository repository = new EventosRepository();
             List<Evento> eventos = repository.retrieve();
             return eventos;
         }
@@ -25,7 +25,7 @@ namespace WebAPI_AE3.Controllers
         [ActionName("GetDTO")]
         public IEnumerable<EventoDTO> GetDTO()
         {
-            var repository = new Repositorio_Evento();
+            var repository = new EventosRepository();
             List<EventoDTO> eventos = repository.retrieveDTO();
             return eventos;
         }

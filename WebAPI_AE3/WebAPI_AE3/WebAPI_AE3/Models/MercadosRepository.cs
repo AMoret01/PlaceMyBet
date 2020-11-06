@@ -5,10 +5,9 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Web;
-
 namespace WebAPI_AE3.Models
 {
-    public class Repositorio_Evento
+    public class MercadosRepository
     {
         private MySqlConnection conexion()
         {
@@ -18,26 +17,26 @@ namespace WebAPI_AE3.Models
 
         }
 
-        internal List<Evento> retrieve()
+        internal List<Mercado> retrieve()
         {
             MySqlConnection conectar = conexion();
             MySqlCommand command = conectar.CreateCommand();
-            command.CommandText = "SELECT * FROM evento";
+            command.CommandText = "SELECT * FROM mercado";
 
             try
             {
                 conectar.Open();
                 MySqlDataReader reader = command.ExecuteReader();
-                List<Evento> evento = new List<Evento>();
+                List<Mercado> mercado = new List<Mercado>();
 
                 while (reader.Read())
                 {
-                    Evento e = new Evento(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetMySqlDateTime(3).ToString());
-                    evento.Add(e);
+                    Mercado e = new Mercado(reader.GetInt32(0), reader.GetDouble(1), reader.GetDouble(2), reader.GetDouble(3), reader.GetDouble(4), reader.GetDouble(5), reader.GetInt32(6));
+                    mercado.Add(e);
 
                 }
                 conectar.Close();
-                return evento;
+                return mercado;
             }
             catch (MySqlException e)
             {
@@ -46,26 +45,26 @@ namespace WebAPI_AE3.Models
             }
         }
 
-        internal List<EventoDTO> retrieveDTO()
+        internal List<MercadoDTO> retrieveDTO()
         {
             MySqlConnection conectar = conexion();
             MySqlCommand command = conectar.CreateCommand();
-            command.CommandText = "SELECT local,visitante,fecha FROM evento";
+            command.CommandText = "SELECT tipo_Mercado,cuota_Over,cuota_Under FROM mercado";
 
             try
             {
                 conectar.Open();
                 MySqlDataReader reader = command.ExecuteReader();
-                List<EventoDTO> evento = new List<EventoDTO>();
+                List<MercadoDTO> mercado = new List<MercadoDTO>();
 
                 while (reader.Read())
                 {
-                    EventoDTO e = new EventoDTO(reader.GetString(0), reader.GetString(1), reader.GetMySqlDateTime(2).ToString());
-                    evento.Add(e);
+                    MercadoDTO e = new MercadoDTO(reader.GetDouble(0), reader.GetDouble(1), reader.GetDouble(2));
+                    mercado.Add(e);
 
                 }
                 conectar.Close();
-                return evento;
+                return mercado;
             }
             catch (MySqlException e)
             {
@@ -73,6 +72,5 @@ namespace WebAPI_AE3.Models
                 return null;
             }
         }
-
     }
 }

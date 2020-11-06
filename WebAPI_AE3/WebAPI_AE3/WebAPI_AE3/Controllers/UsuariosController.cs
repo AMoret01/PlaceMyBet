@@ -8,12 +8,12 @@ using System.Web.UI;
 using WebAPI_AE3.Models;
 namespace WebAPI_AE3.Controllers
 {
-    public class Usuarios_Controller : ApiController
+    public class UsuariosController : ApiController
     {
         // GET: api/Usuario_
         public IEnumerable<Usuario> Get()
         {
-            var repository = new Repositorio_Usuario();
+            var repository = new UsuariosRepository();
             List<Usuario> usuarios = repository.retrieve();
             return usuarios;
         }
