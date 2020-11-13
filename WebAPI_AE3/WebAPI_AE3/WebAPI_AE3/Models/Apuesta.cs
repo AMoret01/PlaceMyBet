@@ -48,5 +48,17 @@ namespace WebAPI_AE3.Models
         public double Dinero { get; set; }
         public string Fecha { get; set; }
     }
-    
+    public class ApuestaUsuario
+    {
+        public ApuestaUsuario(string Nombre_usuario, double Cantidad, int Mercado)
+        {
+            this.Nombre_usuario = Nombre_usuario;
+            this.Cantidad = Cantidad;
+            this.Mercado = Mercado;
+        }
+
+        public string Nombre_usuario { get; set; }
+        public double Cantidad { get; set; }
+        public int Mercado { get; set; }
+    }
 }

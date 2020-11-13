@@ -154,7 +154,55 @@ namespace WebAPI_AE3.Models
 
 
         }
-       
+        /*** Ejercicio 2 ***/
+        internal List<ApuestaUsuario> apuestaUsuario(double val1, double val2)
+        {
+            CultureInfo culInfo = new System.Globalization.CultureInfo("es-ES");
+
+            culInfo.NumberFormat.NumberDecimalSeparator = ".";
+
+            culInfo.NumberFormat.CurrencyDecimalSeparator = ".";
+            culInfo.NumberFormat.PercentDecimalSeparator = ".";
+            culInfo.NumberFormat.CurrencyDecimalSeparator = ".";
+            System.Threading.Thread.CurrentThread.CurrentCulture = culInfo;
+
+            MySqlConnection con = conexion();
+            MySqlCommand command = con.CreateCommand();
+            command.CommandText = "SELECT u.Nombre, a.DineroApuesta, a.IdMercado FROM apuestas a INNER JOIN usuarios u ON a.Emailusuario=u.Email WHERE a.Cuota BETWEEN '" + val1 + "' AND '" + val2 + "'";
+
+
+            Debug.WriteLine("Valor de idevento " + val1);
+            Debug.WriteLine("Valor de idevento " + val2);
+
+            try
+            {
+                con.Open();
+
+                MySqlDataReader reader = command.ExecuteReader();
+
+                List<ApuestaUsuario> apuesta = new List<ApuestaUsuario>();
+
+                Debug.WriteLine("Comando " + command.CommandText);
+
+                while (reader.Read())
+                {
+                    Debug.WriteLine("Recuperado" + reader.GetString(0) + " " + reader.GetString(1) + " " + reader.GetDouble(2));
+                    ApuestaUsuario au = new ApuestaUsuario(reader.GetString(0), reader.GetDouble(1), reader.GetInt32(2));
+
+                    apuesta.Add(au);
+
+                }
+
+                con.Close();
+                return apuesta;
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e);
+                return null;
+            }
+
+        }
 
     }
 }

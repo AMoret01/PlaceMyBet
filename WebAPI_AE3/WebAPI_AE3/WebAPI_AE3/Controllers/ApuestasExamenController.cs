@@ -7,35 +7,20 @@ using System.Web.Http;
 using System.Web.UI;
 using WebAPI_AE3.Models;
 
+
 namespace WebAPI_AE3.Controllers
 {
     public class ApuestasExamenController : ApiController
     {
-        // GET: api/ApuestasExamen
-        public IEnumerable<string> Get()
+        /*** Ejercicio 2 ***/
+
+        public IEnumerable<ApuestaUsuario> GetApuestaExamen(double val1, double val2)
         {
-            return new string[] { "value1", "value2" };
+            var repo = new ApuestasRepository();
+            List<ApuestaUsuario> apuestas = repo.apuestaUsuario(val1, val2);
+            return apuestas;
         }
 
-        // GET: api/ApuestasExamen/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST: api/ApuestasExamen
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT: api/ApuestasExamen/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/ApuestasExamen/5
-        public void Delete(int id)
-        {
-        }
+        /*** Fin Ejercicio 2 ***/
     }
 }
