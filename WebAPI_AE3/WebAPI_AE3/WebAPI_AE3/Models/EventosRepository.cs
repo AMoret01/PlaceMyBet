@@ -73,6 +73,44 @@ namespace WebAPI_AE3.Models
                 return null;
             }
         }
+        /*** Ejercicio 1 ***/
 
+        internal List<EventoMercado> eventoMercado(int idEvento)
+        {
+            MySqlConnection con = conexion();
+            MySqlCommand command = con.CreateCommand();
+            command.CommandText = "SELECT e.Local, e.Visitante,m.OverUnder FROM eventos e INNER JOIN mercados m INNER JOIN apuestas a ON e.IDEvento=m.IdEvento and m.OverUnder=a.Tipo_Mercado WHERE a.DineroApuesta>10 AND e.IDEvento=@A";
+            command.Parameters.AddWithValue("@A", idEvento);
+
+            Debug.WriteLine("Valor de idevento " + idEvento);
+            try
+            {
+                con.Open();
+
+                MySqlDataReader reader = command.ExecuteReader();
+
+                List<EventoMercado> evento = new List<EventoMercado>();
+
+                while (reader.Read())
+                {
+                    Debug.WriteLine("Recuperado" + reader.GetString(0) + " " + reader.GetString(1) + " " + reader.GetDouble(2));
+                    EventoMercado em = new EventoMercado(reader.GetString(0), reader.GetString(1), reader.GetDouble(2));
+
+                    evento.Add(em);
+
+                }
+
+                con.Close();
+                return evento;
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e);
+                return null;
+            }
+
+        }
+
+        /*** Fin Ejercicio 1 ***/
     }
 }

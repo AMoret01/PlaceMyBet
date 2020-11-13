@@ -48,4 +48,5 @@ namespace WebAPI_AE3.Models
         public double Dinero { get; set; }
         public string Fecha { get; set; }
     }
+    
 }

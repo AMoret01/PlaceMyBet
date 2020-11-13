@@ -13,20 +13,9 @@ namespace WebAPI_AE3.Controllers
     public class ApuestaController : ApiController
     {
         // GET: api/Apuesta
-        
-        public IEnumerable<Apuesta> Get()
-        {
-            ApuestasRepository rep = new ApuestasRepository();
-            List<Apuesta> lista = rep.retrieve();
-            return lista;
-        }
-        
-        public IEnumerable<ApuestaDTO> GetDTO()
-        {
-            var repository = new ApuestasRepository();
-            List<ApuestaDTO> apuestas = repository.retrieveDTO();
-            return apuestas;
-        }
+
+
+
 
         // GET: api/Apuesta/5
         public string Get(int id)

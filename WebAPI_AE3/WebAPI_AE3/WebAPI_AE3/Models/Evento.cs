@@ -34,4 +34,17 @@ namespace WebAPI_AE3.Models
         public string Visitante { get; set; }
         public string Fecha { get; set; }
     }
+    public class EventoMercado
+    {
+        public EventoMercado(string local, string visitante, double tipomercado)
+        {
+            this.local = local;
+            this.visitante = visitante;
+            this.tipomercado = tipomercado;
+        }
+
+        public string local { get; set; }
+        public string visitante { get; set; }
+        public double tipomercado { get; set; }
+    }
 }
